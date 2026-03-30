@@ -3,45 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>MATRICULA</title>
+    <!-- Libreria de Icons -->
     <script src="https://kit.fontawesome.com/812c8ee19a.js" crossorigin="anonymous"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="css/styles.css">
-
-    <script src="js/WE_MC_03_jquery.js"></script>
+    <!-- Framework de Bootsrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Estilos de css -->
+    <link rel="stylesheet" href="css/styles_index.css">
+    <!-- Favicon de la aplicacion de matricula -->
+    <link rel="shortcut icon" href="img/faviconn (1).ico" type="image/x-icon">
 </head>
-<body>
-    <!-- INICIO DE MENÚ DE NAVEGACIÓN -->
-    <header id="header">
-      <nav class="menu">
-        <div class="logo">
-          <a href="#">
-            <img src="img/Logo.svg" alt="" class="img-fluid img-logo" />
-          </a>
-          <a href="#" class="btn-menu" id="btn-menu">
-            <i class="fa-solid fa-bars icono-menu"></i>
-          </a>
-        </div>
-        <div class="enlaces" id="enlaces">
-          <a href="index.html">INICIO</a>
-          <a href="cursos.html">CURSOS</a>
-          <a href="especializaciones.html">ESPECIALIZACIONES</a>
-          <a href="contactos.html">CONTACTOS</a>
-          <a href="registro.html">REGISTRO</a>
-          <a href="#">LOGIN</a>
-        </div>
-      </nav>
-    </header>
-    <!-- FIN DE MENÚ DE NAVEGACIÓN -->
+<body> 
+    <!-- FORMULARIO PARA MATRICULAS -->
+    <article class="contenedor">
+        <form id="formRegistro" class="formulario">
+            <h2 class="Titulo1">Registro de Nuevo Alumno</h2>
+            <input class="diseno-form" type="text" id="regNombres" name="nombres" placeholder="Nombres" required>
+            <input class="diseno-form" type="text" id="regApellidos" name="apellidos" placeholder="Apellidos" required><br>
+            <input class="diseno-form" type="text" id="regDni" name="dni" placeholder="N° DNI (8 dígitos)" maxlength="8" required>
+            <input class="diseno-form" type="email" id="regCorreo" name="correo" placeholder="Correo Electrónico" required><br>
+            <input class="diseno-form" type="date" id="regNacimiento" name="nacimiento" required>
+            
+            <input class="diseno-form" type="text" id="apoNombres" name="apoNombres" placeholder="Nombres del Apoderado" required><br>
+            <input class="diseno-form" type="text" id="apoCelular" name="apoCelular" placeholder="Celular del Apoderado" 
+            maxlength="9" required>
+            <br>
+            
+            <button type="submit"  class="btn btn-primary">Registrarse</button>
+            <p id="mensajeRegistro" class="mensaje"></p>
+        </form>
 
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-dtgdegd
+        <a href="login.html">
+        <button id="btnAlternarVista"  class="btn btn-secondary" href="login.hmtl">Ya tengo cuenta / Iniciar Sesión</button>
+        </a>
+    </article>
 
-<script src="js/WE_MC_02_headroom.min.js"></script>
-<script src="js/WE_MC_04_menu-flex.js"></script>
-
+    <!-- Libreria JS de bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
