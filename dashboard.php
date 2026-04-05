@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login2.html");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +14,6 @@
     <title>Document</title>
 </head>
 <body>
-    dadas
+    <a href="php/logout.php">Cerrar sesión</a>
 </body>
 </html>
