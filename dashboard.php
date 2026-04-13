@@ -24,6 +24,8 @@ $nombreUsuario = $_SESSION['nombre_usuario'] ?? 'Administrador';
 
     <link rel="stylesheet" href="css/dashboard.css">
 
+    <link rel="stylesheet" href="css/dashboard_inicio.css">
+
     <link rel="shortcut icon" href="img/faviconn (1).ico" type="image/x-icon">
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -137,12 +139,20 @@ $nombreUsuario = $_SESSION['nombre_usuario'] ?? 'Administrador';
         </div>
     </main>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 <?php if ($pagina == 'estudiantes'): 
     echo '<script src="js/dashboard.js"></script>';
+     endif; ?>
+
+<?php if ($pagina == 'inicio'): 
+    echo '<script> $(document).ready(function () {
+            cargarDatosDashboard();
+            });
+        </script>
+        <script src="js/dashboard.js"></script>';
      endif; ?>
 
 <?php if ($pagina == 'pagos' || $pagina == 'matricula' || $pagina == 'cursoGrado'): 
