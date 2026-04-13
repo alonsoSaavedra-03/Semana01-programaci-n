@@ -68,7 +68,16 @@ body {
     cursor: pointer;
     font-size: 18px;
 }
-
+/* ESTADO DE PAGO */
+.color_pago_ {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px; /* forma redondeada tipo cápsula */
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+}
 /* GRID */
 .modal-grid{
     display: grid;

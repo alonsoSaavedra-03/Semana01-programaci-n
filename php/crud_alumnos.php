@@ -1,35 +1,29 @@
 <?php
 header('Content-Type: application/json');
 
-$host = 'localhost';
-$db   = 'MATRICULA';
-$user = 'root';
-$pass = '';
+include("conexion.php");
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Recibir qué acción queremos hacer
-    // 1: Crear, 2: Editar, 3: Eliminar, 4: Listar
     $opcion = $_POST['opcion'] ?? '';
 
     switch ($opcion) {
-        case '1': // CREAR REGISTRO
+
+        case '1': // CREAR
             $hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
             $sql = "INSERT INTO ALUMNO (
                         DNI_ALUMNO,
                         NOMBRES,
                         APELLIDOS,
-                        FECHA_NAC,
+                        FECHA_NACIMIENTO,
                         EDAD,
                         GENERO,
                         DIRECCION,
                         CELULAR,
                         CORREO,
-                        APODERADO_NOMBRE,
-                        APODERADO_CELULAR,
+                        NOMBRE_APODERADO,
+                        CELULAR_APODERADO,
                         USERNAME,
                         PASSWORD_HASH,
                         estado
@@ -59,9 +53,7 @@ try {
             ]);
             break;
 
-        case '2': // EDITAR REGISTRO
-            // Si escribió una nueva contraseña, la actualizamos.
-            // Si está vacía, la dejamos igual.
+        case '2': // EDITAR
             if (!empty($_POST['password'])) {
                 $hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
@@ -69,17 +61,17 @@ try {
                             DNI_ALUMNO = ?,
                             NOMBRES = ?,
                             APELLIDOS = ?,
-                            FECHA_NAC = ?,
+                            FECHA_NACIMIENTO = ?,
                             EDAD = ?,
                             GENERO = ?,
                             DIRECCION = ?,
                             CELULAR = ?,
                             CORREO = ?,
-                            APODERADO_NOMBRE = ?,
-                            APODERADO_CELULAR = ?,
+                            NOMBRE_APODERADO = ?,
+                            CELULAR_APODERADO = ?,
                             USERNAME = ?,
                             PASSWORD_HASH = ?,
-                            estado = ?,
+                            estado = ?
                         WHERE ID_ALUMNO = ?";
 
                 $params = [
@@ -104,14 +96,14 @@ try {
                             DNI_ALUMNO = ?,
                             NOMBRES = ?,
                             APELLIDOS = ?,
-                            FECHA_NAC = ?,
+                            FECHA_NACIMIENTO = ?,
                             EDAD = ?,
                             GENERO = ?,
                             DIRECCION = ?,
                             CELULAR = ?,
                             CORREO = ?,
-                            APODERADO_NOMBRE = ?,
-                            APODERADO_CELULAR = ?,
+                            NOMBRE_APODERADO = ?,
+                            CELULAR_APODERADO = ?,
                             USERNAME = ?,
                             estado = ?
                         WHERE ID_ALUMNO = ?";
@@ -130,7 +122,7 @@ try {
                     $_POST['cel_apoderado'],
                     $_POST['username'],
                     $_POST['estado'],
-                    $_POST['id_alumno'],
+                    $_POST['id_alumno']
                 ];
             }
 
@@ -143,7 +135,7 @@ try {
             ]);
             break;
 
-        case '3': // ELIMINAR REGISTRO
+        case '3': // ELIMINAR
             $sql = "DELETE FROM ALUMNO WHERE ID_ALUMNO = ?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([$_POST['id_alumno']]);
@@ -154,29 +146,51 @@ try {
             ]);
             break;
 
-        case '4': // LISTAR REGISTROS
-            // Seleccionamos los campos principales y los ordenamos
-            // del más reciente al más antiguo
+        case '4': // LISTAR
             $sql = "SELECT
                         ID_ALUMNO,
                         NOMBRES,
                         APELLIDOS,
                         DNI_ALUMNO,
-                        FECHA_NAC,
+                        FECHA_NACIMIENTO,
                         CELULAR,
                         CORREO,
-                        estado
+                        estado,
+                        FECHA_REGISTRO
                     FROM ALUMNO
                     ORDER BY ID_ALUMNO DESC";
 
             $stmt = $pdo->prepare($sql);
             $stmt->execute();
 
-            // fetchAll(PDO::FETCH_ASSOC) convierte los resultados
-            // en un formato que JSON entiende perfectamente
             $alumnos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
             echo json_encode($alumnos);
+            break;
+
+        case '5': // OBTENER UNO
+            $sql = "SELECT
+                        ID_ALUMNO,
+                        DNI_ALUMNO,
+                        NOMBRES,
+                        APELLIDOS,
+                        FECHA_NACIMIENTO,
+                        EDAD,
+                        GENERO,
+                        DIRECCION,
+                        CELULAR,
+                        CORREO,
+                        NOMBRE_APODERADO,
+                        CELULAR_APODERADO,
+                        USERNAME,
+                        estado
+                    FROM ALUMNO
+                    WHERE ID_ALUMNO = ?";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$_POST['id_alumno']]);
+
+            $alumno = $stmt->fetch(PDO::FETCH_ASSOC);
+            echo json_encode($alumno);
             break;
 
         default:
@@ -185,33 +199,8 @@ try {
                 "mensaje" => "Opción no válida."
             ]);
             break;
-            case '5': // OBTENER DATOS DE UN SOLO ALUMNO
-                $sql = "SELECT 
-                            ID_ALUMNO,
-                            DNI_ALUMNO,
-                            NOMBRES,
-                            APELLIDOS,
-                            FECHA_NAC,
-                            EDAD,
-                            GENERO,
-                            DIRECCION,
-                            CELULAR,
-                            CORREO,
-                            APODERADO_NOMBRE,
-                            APODERADO_CELULAR,
-                            USERNAME,
-                            estado
-                        FROM ALUMNO
-                        WHERE ID_ALUMNO = ?";
-            
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([$_POST['id_alumno']]);
-            
-                $alumno = $stmt->fetch(PDO::FETCH_ASSOC);
-                echo json_encode($alumno);
-                break;
     }
-    
+
 } catch (PDOException $e) {
     echo json_encode([
         "exito" => false,
