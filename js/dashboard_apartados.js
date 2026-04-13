@@ -256,6 +256,7 @@ function aprobarMatricula(idAlumno, nivel, grado) {
                 dataType: "json",
                 success: function (response) {
                     console.log(response);
+                    listarMatriculas();
                 },
                 error: function (xhr) {
                     console.log("Error:", xhr.responseText);
@@ -286,6 +287,7 @@ function cancelarMatricula(idAlumno) {
                 dataType: "json",   
                 success: function (response) {
                     console.log(response);
+                    listarMatriculas();
                 },
                 error: function (xhr) {
                     console.log("Error:", xhr.responseText);
