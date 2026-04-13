@@ -13,10 +13,72 @@ $(document).ready(function () {
         console.log("Cargando matrículas...");
         listarMatriculas();
     }
-
+    if($("#tablacursos").length) {
+        console.log("Cargando Cursos...");
+        listadoCursos();
+    }
 
 });
+$('.btn-abrir-modal').on('click', function () {
+    $('#formCurso')[0].reset();
+    $('#idCurso').val(''); // Limpia el ID oculto
+    $('#opcion').val('insertarCurso'); // Asegura que la opción sea insertar
+    $('#modalTitulo').text('Registrar Curso'); // Cambia el título de vuelta
+    $('#modalCurso').css('display', 'flex').hide().fadeIn();
+});
 
+$('.cerrar-modal').on('click', function () {
+    $('#modalCurso').fadeOut();
+});
+$('#formCurso').on('submit', function (e) {
+    e.preventDefault();
+
+    agregarCurso()
+});
+$('.btn-cerrar').on('click', function (e) {
+    $('#modalCurso').fadeOut();
+
+});
+// --- EVENTO ELIMINAR ---
+$(document).on('click', '.eliminar', function (e) {
+    e.preventDefault();
+    let idCurso = $(this).data('id');
+
+    // Usamos SweetAlert para confirmar
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarCurso(idCurso);
+        }
+    });
+});
+
+// --- EVENTO EDITAR ---
+$(document).on('click', '.editar', function() {
+    let id = $(this).data('id');
+    
+    // Cambiamos el título y la opción
+    $('#modalTitulo').text('Editar Curso');
+    $('#opcion').val('editarCurso'); // 👈 Cambiamos el switch de PHP
+    $('#idCurso').val(id); // 👈 Guardamos el ID
+
+    // Opcional: Cargar datos actuales en los inputs
+    // Si ya tienes los datos en la fila de la tabla, puedes capturarlos:
+    let fila = $(this).closest('tr');
+    $('#nombreCurso').val(fila.find('.col-nombre').text());
+    $('#horasCurso').val(fila.find('.col-horas').text());
+    $('#descripcionCurso').val(fila.find('.col-desc').text());
+
+    $('#modalCurso').css('display', 'flex').hide().fadeIn();
+});
 // ACTIVAR FUNCIONES DE LOS PAGOS A TRAVES DE BOTONES
 $(document).on('click', '#aprobarPago', function (e) {
     e.preventDefault();
@@ -293,6 +355,91 @@ function cancelarMatricula(idAlumno) {
                     console.log("Error:", xhr.responseText);
                 }
             });
+        }
+    });
+}
+
+function listadoCursos(){
+    console.log("ENTRÓ A lista de Cursos");
+
+    $.ajax({
+        url: "php/crud_cursoGrados.php",
+        type: "POST",
+        data: { opcion: "listadoCursos" },
+        dataType: "json",
+
+        success: function (response) {
+            console.log("RESPUESTA CURSOS:", response);
+
+            let html = "";
+
+            response.forEach(curs => {
+                const colorMatricula = {
+                        activo: "status-active",
+                        inactivo: "status-inactive",
+                        "en-proceso": "status-proces"
+                    };
+                    // ... dentro del response.forEach
+                        html += `
+                        <tr>
+                            <td>${curs.ID_CURSO}</td>
+                            <td class="col-nombre">${curs.NOMBRE}</td>
+                            <td class="col-desc">${curs.DESCRIPCION}</td>
+                            <td class="col-horas">${curs.HORAS_SEMANA}</td>
+                            <td class="action-icons">
+                                <i class="fa-solid fa-pen-to-square editar" data-id="${curs.ID_CURSO}"></i>
+                                <i class="fa-solid fa-trash eliminar" data-id="${curs.ID_CURSO}"></i>
+                            </td>
+                        </tr>`;
+            });
+
+            $("#tablacursos").html(html);
+        },
+
+        error: function (xhr) {
+            console.log("Error cursos:", xhr.responseText);
+        }
+    });
+}
+function agregarCurso() {
+
+    $.ajax({
+        url: "php/crud_cursoGrados.php",
+        type: "POST",
+        dataType: "json",
+        data: $("#formCurso").serialize(), // Quité el "+ &opcion..."
+        success: function (respuesta) {
+            if (respuesta.exito) {
+                $('#modalCurso').fadeOut(); // Cambié modalAlumno por modalCurso
+                Swal.fire('¡Éxito!', respuesta.mensaje, 'success').then(() => {
+                    listadoCursos(); // Es mejor llamar a la función que recargar toda la página
+                });
+            } else {
+                Swal.fire('Error', respuesta.mensaje, 'error');
+            }
+        },
+        error: function () {
+            Swal.fire('Error', 'Ocurrió un problema al guardar los datos.', 'error');
+        }
+    });
+}
+function eliminarCurso(id) {
+    $.ajax({
+        url: "php/crud_cursoGrados.php",
+        type: "POST",
+        dataType: "json",
+        data: { 
+            opcion: 'eliminarCurso', 
+            id: id 
+        },
+        success: function (respuesta) {
+            if (respuesta.exito) {
+                Swal.fire('Eliminado', respuesta.mensaje, 'success').then(() => {
+                    location.reload(); // O recargar la tabla
+                });
+            } else {
+                Swal.fire('Error', respuesta.mensaje, 'error');
+            }
         }
     });
 }

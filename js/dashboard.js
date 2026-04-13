@@ -1,5 +1,7 @@
+let chartGenero = null;
+let chartNiveles = null;
 $(document).ready(function () {
-
+    
     // 1. ABRIR MODAL PARA NUEVO REGISTRO
     $('.btn-abrir-modal').on('click', function () {
         $('#formAlumno')[0].reset();
@@ -9,7 +11,7 @@ $(document).ready(function () {
         $('#password').attr('required', true);
         $('#modalAlumno').css('display', 'flex').hide().fadeIn();
     });
-
+    
     // 2. CERRAR MODAL REGISTRO/EDICIÓN
     $('.cerrar-modal').on('click', function () {
         $('#modalAlumno').fadeOut();
@@ -229,3 +231,116 @@ $(document).ready(function () {
 
     cargarAlumnos();
 });
+
+function dibujarGraficoGenero(etiquetas, datos) {
+    let ctx = document
+        .getElementById('graficoGenero')
+        .getContext('2d');
+
+    // Destruir gráfico anterior si existe (evita superposición)
+    if (chartGenero) {
+        chartGenero.destroy();
+    }
+
+    chartGenero = new Chart(ctx, {
+        type: 'doughnut', // Gráfico circular tipo "Dona"
+        data: {
+            labels: etiquetas,
+            datasets: [
+                {
+                    data: datos,
+                    backgroundColor: [
+                        '#3498DB',
+                        '#E74C3C',
+                        '#F1C40F'
+                    ], // Colores corporativos
+                    borderWidth: 2,
+                    hoverOffset: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // Permite que se adapte a nuestro CSS
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}
+
+function dibujarGraficoNiveles(etiquetas, totales, disponibles) {
+    let ctx = document
+        .getElementById('graficoNiveles')
+        .getContext('2d');
+
+    if (chartNiveles) {
+        chartNiveles.destroy();
+    }
+
+    chartNiveles = new Chart(ctx, {
+        type: 'bar', // Gráfico de barras
+        data: {
+            labels: etiquetas,
+            datasets: [
+                {
+                    label: 'Vacantes Totales',
+                    data: totales,
+                    backgroundColor: '#95A5A6', // Gris
+                    borderRadius: 4
+                },
+                {
+                    label: 'Vacantes Disponibles',
+                    data: disponibles,
+                    backgroundColor: '#2ECC71', // Verde
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+function cargarDatosDashboard() {
+    $.ajax({
+        url: "php/dashboard_datos.php",
+        type: "GET",
+        dataType: "json",
+        success: function (respuesta) {
+
+            // KPIs
+            $('#kpiTotalAlumnos').text(respuesta.datos.kpis.totalAlumnos);
+            $('#kpiTotalAulas').text(respuesta.datos.kpis.totalAulas);
+            $('#kpiVacantesDisp').text(respuesta.datos.kpis.vacantesDisp);
+
+            // GRÁFICO GENERO
+            let generos = respuesta.datos.graficos.genero;
+
+            let etiquetasGenero = generos.map(g => g.GENERO);
+            let datosGenero = generos.map(g => g.cantidad);
+
+            dibujarGraficoGenero(etiquetasGenero, datosGenero);
+
+            // GRÁFICO NIVELES
+            let niveles = respuesta.datos.graficos.niveles;
+
+            let etiquetasNiveles = niveles.map(n => n.NIVEL);
+            let totales = niveles.map(n => n.totales);
+            let disponibles = niveles.map(n => n.disponibles);
+
+            dibujarGraficoNiveles(etiquetasNiveles, totales, disponibles);
+        },
+        error: function () {
+            console.log("Error cargando dashboard");
+        }
+    });
+}
