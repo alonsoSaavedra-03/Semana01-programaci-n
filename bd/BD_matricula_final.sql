@@ -46,6 +46,12 @@ CREATE TABLE RESERVA (
     FECHA_RESERVA DATETIME DEFAULT CURRENT_TIMESTAMP,
     ESTADO_PAGOO VARCHAR(20) DEFAULT 'PENDIENTE'
 );
+CREATE TABLE CURSO (
+    ID_CURSO INT AUTO_INCREMENT PRIMARY KEY,
+    NOMBRE VARCHAR(100) NOT NULL,
+    DESCRIPCION TEXT,
+    HORAS_SEMANA INT NOT NULL
+);
 
 -- =========================
 -- TABLA MATRICULA
@@ -126,6 +132,13 @@ INSERT INTO RESERVA (ID_ALUMNO, ID_AULA, CODIGO_PAGO, ESTADO_PAGOO) VALUES
 (2, 2, 'PAGO002', 'PAGADO'),
 (3, 1, 'PAGO003', 'PENDIENTE'),
 (4, 3, 'PAGO004', 'PAGADO');
+
+INSERT INTO CURSO (NOMBRE, DESCRIPCION, HORAS_SEMANA) VALUES
+('Matemática', 'Curso enfocado en álgebra, aritmética y geometría.', 6),
+('Comunicación', 'Desarrollo de habilidades de lectura y escritura.', 5),
+('Historia', 'Estudio de hechos históricos nacionales y mundiales.', 4),
+('Ciencia y Tecnología', 'Conceptos básicos de física, química y biología.', 5),
+('Inglés', 'Aprendizaje del idioma inglés básico e intermedio.', 3);
 
 -- =========================
 -- TABLA USUARIO
