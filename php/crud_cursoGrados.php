@@ -2,7 +2,6 @@
 header('Content-Type: application/json');
 include("conexion.php");
 
-// Recibimos la opción para saber qué acción ejecutar
 $opcion = $_POST['opcion'] ?? '';
 
 switch ($opcion) {
@@ -17,7 +16,7 @@ switch ($opcion) {
         case 'eliminarCurso':
             $id = $_POST['id'] ?? '';
             try {
-                $sql = "DELETE FROM curso WHERE ID_CURSO = :id"; // Ajusta ID_CURSO al nombre de tu columna
+                $sql = "DELETE FROM curso WHERE ID_CURSO = :id";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([':id' => $id]);
                 
@@ -49,9 +48,6 @@ switch ($opcion) {
         break;
 }
 
-/**
- * Función para listar cursos
- */
 function obtenerCursos($pdo) {
     $sql = "SELECT * FROM curso";
     $stmt = $pdo->prepare($sql);
@@ -60,9 +56,6 @@ function obtenerCursos($pdo) {
     echo json_encode($data);
 }
 
-/**
- * Función para insertar un nuevo curso
- */
 function insertarCurso($pdo) {
     $nombreCurso = $_POST['nombreCurso'] ?? '';
     $horasCurso = $_POST['horasCurso'] ?? '';

@@ -39,10 +39,10 @@
             <input type="hidden" id="opcion" name="opcion" value="insertarCurso">
 
             <div class="modal-grid">
-                <input type="text" id="nombreCurso" name="nombreCurso" placeholder="Nombre del Curso" maxlength="8" required>
+                <input type="text" id="nombreCurso" name="nombreCurso" placeholder="Nombre del Curso" required>
                 <input type="number" id="horasCurso" name="horasCurso" placeholder="Horas" required>
 
-                <input type="text" class="full" id="descripcionCurso" name="descripcionCurso" placeholder="Descripcion" maxlength="9" required>
+                <input type="text" class="full" id="descripcionCurso" name="descripcionCurso" placeholder="Descripcion" required>
             </div>
 
             <div class="modal-bottom">

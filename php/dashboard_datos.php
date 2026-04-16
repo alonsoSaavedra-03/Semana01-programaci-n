@@ -17,13 +17,9 @@ try {
 
     $respuesta = [];
 
-    // 1. OBTENER KPIs BÁSICOS
-
-    // Total de Alumnos
     $stmt = $pdo->query("SELECT COUNT(*) AS total FROM ALUMNO");
     $respuesta['kpis']['totalAlumnos'] = $stmt->fetchColumn();
 
-    // Total de Aulas y Vacantes Disponibles
     $stmt = $pdo->query("
         SELECT 
             COUNT(*) AS totalAulas,
@@ -36,7 +32,6 @@ try {
     $respuesta['kpis']['totalAulas']  = $row['totalAulas'] ?? 0;
     $respuesta['kpis']['vacantesDisp'] = $row['vacantesDisp'] ?? 0;
 
-    // 2. DATOS PARA EL GRÁFICO 1: Alumnos por Género
     $stmt = $pdo->query("
         SELECT 
             GENERO, 
@@ -48,7 +43,6 @@ try {
     $generos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $respuesta['graficos']['genero'] = $generos;
 
-    // 3. DATOS PARA EL GRÁFICO 2: Vacantes por Nivel
     $stmt = $pdo->query("
         SELECT 
             NIVEL, 

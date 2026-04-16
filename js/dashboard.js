@@ -237,13 +237,12 @@ function dibujarGraficoGenero(etiquetas, datos) {
         .getElementById('graficoGenero')
         .getContext('2d');
 
-    // Destruir gráfico anterior si existe (evita superposición)
     if (chartGenero) {
         chartGenero.destroy();
     }
 
     chartGenero = new Chart(ctx, {
-        type: 'doughnut', // Gráfico circular tipo "Dona"
+        type: 'doughnut',
         data: {
             labels: etiquetas,
             datasets: [
@@ -253,7 +252,7 @@ function dibujarGraficoGenero(etiquetas, datos) {
                         '#3498DB',
                         '#E74C3C',
                         '#F1C40F'
-                    ], // Colores corporativos
+                    ],
                     borderWidth: 2,
                     hoverOffset: 4
                 }
@@ -261,7 +260,7 @@ function dibujarGraficoGenero(etiquetas, datos) {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false, // Permite que se adapte a nuestro CSS
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     position: 'bottom'
@@ -281,20 +280,20 @@ function dibujarGraficoNiveles(etiquetas, totales, disponibles) {
     }
 
     chartNiveles = new Chart(ctx, {
-        type: 'bar', // Gráfico de barras
+        type: 'bar',
         data: {
             labels: etiquetas,
             datasets: [
                 {
                     label: 'Vacantes Totales',
                     data: totales,
-                    backgroundColor: '#95A5A6', // Gris
+                    backgroundColor: '#95A5A6',
                     borderRadius: 4
                 },
                 {
                     label: 'Vacantes Disponibles',
                     data: disponibles,
-                    backgroundColor: '#2ECC71', // Verde
+                    backgroundColor: '#2ECC71',
                     borderRadius: 4
                 }
             ]
@@ -317,12 +316,10 @@ function cargarDatosDashboard() {
         dataType: "json",
         success: function (respuesta) {
 
-            // KPIs
             $('#kpiTotalAlumnos').text(respuesta.datos.kpis.totalAlumnos);
             $('#kpiTotalAulas').text(respuesta.datos.kpis.totalAulas);
             $('#kpiVacantesDisp').text(respuesta.datos.kpis.vacantesDisp);
 
-            // GRÁFICO GENERO
             let generos = respuesta.datos.graficos.genero;
 
             let etiquetasGenero = generos.map(g => g.GENERO);
@@ -330,7 +327,6 @@ function cargarDatosDashboard() {
 
             dibujarGraficoGenero(etiquetasGenero, datosGenero);
 
-            // GRÁFICO NIVELES
             let niveles = respuesta.datos.graficos.niveles;
 
             let etiquetasNiveles = niveles.map(n => n.NIVEL);

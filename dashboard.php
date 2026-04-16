@@ -60,6 +60,12 @@ $nombreUsuario = $_SESSION['nombre_usuario'] ?? 'Administrador';
                 </li>
 
                 <li>
+                    <a href="dashboard.php?page=aulas">
+                        <i class="fa-solid fa-chalkboard"></i> Aulas
+                    </a>
+                </li>
+
+                <li>
                     <a href="dashboard.php?page=matricula">
                         <i class="fa-solid fa-file-contract"></i> Matrículas
                     </a>
@@ -72,7 +78,7 @@ $nombreUsuario = $_SESSION['nombre_usuario'] ?? 'Administrador';
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="dashboard.php?page=config">
                         <i class="fa-solid fa-gear"></i> Configuración
                     </a>
                 </li>
@@ -109,6 +115,9 @@ $nombreUsuario = $_SESSION['nombre_usuario'] ?? 'Administrador';
                     <h3>
                         <?php echo htmlspecialchars($nombreUsuario); ?>
                         <i class="fa-solid fa-chevron-down"></i>
+                        <a href="php/logout.php">
+                            <button id="logoutBtn" class="btn btn-danger">Cerrar sesión</button>
+                        </a>
                     </h3>
                 </div>
             </div>
@@ -130,6 +139,12 @@ $nombreUsuario = $_SESSION['nombre_usuario'] ?? 'Administrador';
                         break;
                     case 'cursoGrado':
                         include 'php/cursoGrado.php';
+                        break;
+                    case 'aulas':
+                        include 'php/aulas.php';
+                        break;
+                    case 'config':
+                        include 'php/config.php';
                         break;
                     default:
                         include 'php/inicio.php';
@@ -155,7 +170,7 @@ $nombreUsuario = $_SESSION['nombre_usuario'] ?? 'Administrador';
         <script src="js/dashboard.js"></script>';
      endif; ?>
 
-<?php if ($pagina == 'pagos' || $pagina == 'matricula' || $pagina == 'cursoGrado'): 
+<?php if ($pagina == 'pagos' || $pagina == 'matricula' || $pagina == 'cursoGrado' || $pagina == 'aulas' || $pagina == 'config'): 
     echo '<script src="js/dashboard_apartados.js"></script>';
      endif; ?>
 
