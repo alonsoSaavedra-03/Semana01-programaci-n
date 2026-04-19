@@ -22,6 +22,15 @@ CREATE TABLE ALUMNO (
     FECHA_REGISTRO DATETIME DEFAULT CURRENT_TIMESTAMP,
     estado VARCHAR(20) NOT NULL DEFAULT 'activo'
 );
+-- =========================
+-- TABLA USUARIO
+-- =========================
+CREATE TABLE USUARIO (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    USERNAME VARCHAR(50) UNIQUE NOT NULL,
+    PASSWORD_HASH VARCHAR(200) NOT NULL,
+    ESTADO TINYINT(1) DEFAULT 1
+);
 
 -- =========================
 -- TABLA AULA
@@ -139,16 +148,6 @@ INSERT INTO CURSO (NOMBRE, DESCRIPCION, HORAS_SEMANA) VALUES
 ('Historia', 'Estudio de hechos históricos nacionales y mundiales.', 4),
 ('Ciencia y Tecnología', 'Conceptos básicos de física, química y biología.', 5),
 ('Inglés', 'Aprendizaje del idioma inglés básico e intermedio.', 3);
-
--- =========================
--- TABLA USUARIO
--- =========================
-CREATE TABLE USUARIO (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    USERNAME VARCHAR(50) UNIQUE NOT NULL,
-    PASSWORD_HASH VARCHAR(200) NOT NULL,
-    ESTADO TINYINT(1) DEFAULT 1
-);
 
 INSERT INTO USUARIO (USERNAME, PASSWORD_HASH)
 VALUES ('Admin', '$2y$10$heuMG7aElXF5IiS4rCN49.T.smRQfhlCmVuoAh/SPpjQ6YA6qzZO6');

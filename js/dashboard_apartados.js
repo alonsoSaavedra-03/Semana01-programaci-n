@@ -338,7 +338,8 @@ function listarMatriculas() {
                         <td> <span class="status-badge ${colorMatricula[matri.ESTADO]}">${matri.ESTADO}</span></td>
                         `
                         if(matri.ESTADO_MATRICULA != "ACTIVO"){
-                            html += `<td><button class="btn btn-sm btn-success aprobarMatricula" id="aprobarMatricula" data-id="${matri.ID_ALUMNO}" data-nombre="${matri.ESTUDIANTE}"   >Aprobar Matrícula</button> 
+                            html += `<td><button class="btn btn-sm btn-success aprobarMatricula" id="aprobarMatricula" 
+                            data-id="${matri.ID_ALUMNO}" data-nombre="${matri.ESTUDIANTE}"   >Aprobar Matrícula</button> 
                             <button class="btn btn-sm btn-danger" id="cancelarMatricula" data-id="${matri.ID_ALUMNO}">Cancelar Matrícula</button></td>`;
                         } else {
                             html += `<td><button class="btn btn-sm btn-secondary" disabled>Aprobar Matrícula</button> 

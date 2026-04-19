@@ -130,3 +130,4 @@ switch ($opcion) {
     default:
         echo json_encode(["exito" => false, "mensaje" => "Operación no válida"]);
 }
+?>

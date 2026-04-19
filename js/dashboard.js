@@ -228,7 +228,6 @@ $(document).ready(function () {
             }
         });
     }
-
     cargarAlumnos();
 });
 

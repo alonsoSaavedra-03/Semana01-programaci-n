@@ -36,18 +36,26 @@
 
         <form id="formCurso">
             <input type="hidden" id="idCurso" name="idCurso" value="">
-            <input type="hidden" id="opcion" name="opcion" value="insertarCurso">
+            <input type="hidden" id="opcion" name="opcion" 
+            value="insertarCurso">
 
             <div class="modal-grid">
-                <input type="text" id="nombreCurso" name="nombreCurso" placeholder="Nombre del Curso" required>
-                <input type="number" id="horasCurso" name="horasCurso" placeholder="Horas" required>
+                <input type="text" id="nombreCurso" name="nombreCurso" 
+                placeholder="Nombre del Curso" required>
+                <input type="number" id="horasCurso" name="horasCurso" 
+                placeholder="Horas" required>
 
-                <input type="text" class="full" id="descripcionCurso" name="descripcionCurso" placeholder="Descripcion" required>
+                <input type="text" class="full" id="descripcionCurso" 
+                name="descripcionCurso" placeholder="Descripcion" required>
             </div>
 
             <div class="modal-bottom">
-                <button type="button" class="btn-lite cerrar-modal">Cancelar</button>
-                <button type="submit" class="btn-main btn-cerrar">Guardar</button>
+                <button type="button" class="btn-lite cerrar-modal">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-main btn-cerrar">
+                    Guardar
+                </button>
             </div>
         </form>
     </div>

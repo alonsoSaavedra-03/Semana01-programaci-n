@@ -29,7 +29,7 @@ body {
 
 .containers {
     display: flex;
-    min-height: 100vh; /* Ocupar toda la altura de la pantalla */
+    min-height: 100vh;
 }
 /* FONDO */
 .modal-bg{
